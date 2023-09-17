@@ -2,7 +2,8 @@
 // o usamos desetructuracion del props
 // podria mandar un monton de propiedades como width, onlick, className
 // entonces se usa lo que se llama rest operator ...props y hace un iterable de las cosas que tiene
-const MoonIcon = ({ fill = #fff, ...props}) => {
+// eslint-disable-next-line react/prop-types
+const MoonIcon = ({ fill = '#fff', ...props }) => {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26">
             <path
