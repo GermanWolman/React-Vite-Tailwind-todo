@@ -3,7 +3,7 @@
 // podria mandar un monton de propiedades como width, onlick, className
 // entonces se usa lo que se llama rest operator ...props y hace un iterable de las cosas que tiene
 // eslint-disable-next-line react/prop-types
-const MoonIcon = ({ fill = '#fff', ...props }) => {
+const IconMoon = ({ fill = '#fff', ...props }) => {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26">
             <path
@@ -18,4 +18,4 @@ const MoonIcon = ({ fill = '#fff', ...props }) => {
     );
 };
 
-export default MoonIcon;
+export default IconMoon;

@@ -1,79 +1,125 @@
-import CrossIcon from './components/icons/CrossIcon';
-import MoonIcon from './components/MoonIcons';
+import TodoCreate from './components/TodoCreate';
+import Header from './components/Header';
+import TodoList from './components/TodoList';
+import TodoComputed from './components/TodoComputed';
+import TodoFilter from './components/TodoFilter';
+import { useState } from 'react';
+
+const initialStateTodos = [
+    {
+        id: 1,
+        title: 'Complete online Javascript course',
+        completed: true,
+    },
+    {
+        id: 2,
+        title: 'Go to de gym',
+        completed: false,
+    },
+    {
+        id: 3,
+        title: '10 minutes meditation',
+        completed: false,
+    },
+    {
+        id: 4,
+        title: 'Pick up groseries',
+        completed: false,
+    },
+    {
+        id: 5,
+        title: 'Complete todo app on React',
+        completed: false,
+    },
+];
 
 const App = () => {
+    const [todos, setTodos] = useState(initialStateTodos);
+
+    // eleccion del profesor de poner todas las acciones en el app
+
+    const createTodo = (title) => {
+        const newTodo = {
+            id: Date.now,
+            title: title.trim(),
+            completed: false,
+        };
+        setTodos([...todos, newTodo]);
+    };
+
+    const removeTodo = (id) => {
+        setTodos(todos.filter((todo) => todo.id !== id));
+    };
+
+    const updateTodo = (id) => {
+        setTodos(
+            todos.map((todo) =>
+                todo.id === id ? { ...todo, completed: !todo.completed } : todo
+            )
+        );
+    };
+
+    const clrearCompleted = () => {
+        setTodos(todos.filter((todo) => !todo.completed));
+    };
+
+    const computedItemLeft = todos.filter((todo) => !todo.completed).length;
+
+    // all, active y complete
+    const [filter, setFilter] = useState('all');
+
+    // metodo para filtrar
+    const filteredTodos = () => {
+        switch (filter) {
+            case 'all':
+                return todos;
+            case 'active':
+                return todos.filter((todo) => !todo.completed);
+
+            case 'completed':
+                return todos.filter((todo) => todo.completed);
+        }
+    };
+
+    const changeFilter = (filter) => setFilter(filter);
+
     return (
         // md: es como @media, es un punto de quiebre mediano (hay otros puntos de quiebre o breakpoint)
         // con el plugin de pretier y el archivo de configuracion .pretierrc ordena las clases
         // para que quede ultimo el md: (primero text center, y luego en el punto de quiebre el text right)
         // para la imagen cuando pasemos el punto de quiebre pasamos a poner otra imagen
-        <div className="min-h-screen bg-gray-300 bg-[url(./assets/images/bg-mobile-light.jpg)] bg-contain bg-no-repeat ">
-            <header className="container mx-auto px-4">
-                <div className="flex justify-between">
-                    <h1 className="pt-8 text-3xl font-semibold uppercase tracking-[0.3em] text-white">
-                        Todo
-                    </h1>
-                    <button>
-                        <MoonIcon fill="#000"></MoonIcon>
-                    </button>
-                </div>
-                <form className="mt-8 flex items-center gap-6 overflow-hidden rounded-md bg-white px-4 py-4">
-                    <span className="inline-block h-5 w-5 rounded-full border-2"></span>
-                    <input
-                        className="w-full text-gray-400 outline-none"
-                        type="text"
-                        placeholder="Create a new todo..."
-                    />
-                </form>
-            </header>
-            <main className="container mx-auto mt-8 px-4">
-                <div className="rounded-md bg-white [&>article]:p-4">
-                    <article className="flex gap-4 border-b border-b-gray-400 px-4 py-4">
-                        <button className="inline-block h-5 w-5 flex-none rounded-full border-2"></button>
-                        <p className="grow text-gray-600">
-                            Complete online Javascript course in bluuweb
-                        </p>
-                        <button className="flex-none">
-                            <CrossIcon></CrossIcon>
-                        </button>
-                    </article>
-                    <article className="flex gap-4 border-b border-b-gray-400">
-                        <button className="inline-block h-5 w-5 flex-none rounded-full border-2"></button>
-                        <p className="grow text-gray-600">
-                            Complete online Javascript course in bluuweb
-                        </p>
-                        <button className="flex-none">
-                            <CrossIcon></CrossIcon>
-                        </button>
-                    </article>
-                    <article className="flex gap-4 border-b border-b-gray-400">
-                        <button className="inline-block h-5 w-5 flex-none rounded-full border-2"></button>
-                        <p className="grow text-gray-600">
-                            Complete online Javascript course in bluuweb
-                        </p>
-                        <button className="flex-none">
-                            <CrossIcon></CrossIcon>
-                        </button>
-                    </article>
+        <div className="md:bg-[url('./assets/images/bg-desktop-light.jpg') min-h-screen bg-gray-300 bg-[url(./assets/images/bg-mobile-light.jpg)] bg-contain bg-no-repeat transition-all duration-500 dark:bg-gray-900 dark:bg-[url(./assets/images/bg-mobile-dark.jpg)]">
+            {/* Header */}
+            <Header></Header>
+            <main className="container mx-auto mt-8 px-4 dark:text-gray-400">
+                {/* Para comentar aca hay que apretar shit + alt + a */}
+                {/* TodoCreate */}
+                {/* Puedo pasarle el metodo por props */}
+                <TodoCreate createTodo={createTodo}></TodoCreate>
 
-                    <section className="flex justify-between p-4">
-                        <span className="text-gray-400">5 items left</span>
-                        <button className="text-gray-400">
-                            Clear complete
-                        </button>
-                    </section>
-                </div>
+                {/* TodoList (TodoItem)  TodoUpdate y TodoDelete */}
+                <TodoList
+                    todos={filteredTodos()}
+                    removeTodo={removeTodo}
+                    updateTodo={updateTodo}
+                ></TodoList>
+
+                {/* TodoCumputed - ya le paso el resultado (no el metodo como en los otros)*/}
+                <TodoComputed
+                    computedItemLeft={computedItemLeft}
+                    clrearCompleted={clrearCompleted}
+                ></TodoComputed>
+
+                {/* TodoFilter - filter tambien le mandamos para cambiar los hover*/}
+                <TodoFilter
+                    changeFilter={changeFilter}
+                    filter={filter}
+                ></TodoFilter>
             </main>
-            <section className="container mx-auto mt-8 px-4">
-                <div className="flex justify-center gap-4 bg-white p-4">
-                    <button className="text-blue-600">All</button>
-                    <button className="hover:text-blue-600">Active</button>
-                    <button className="hover:text-blue-600">Completed</button>
-                </div>
-            </section>
-            <section className="mt-8 text-center">
+
+            <footer className="mt-8 pb-8 text-center dark:text-gray-400">
                 Drag and drop to reaorder list
-            </section>
+            </footer>
         </div>
     );
 };
