@@ -22,7 +22,7 @@ const TodoCreate = ({ createTodo }) => {
             <input
                 className="w-full text-gray-400 outline-none transition-all duration-500 dark:bg-gray-800"
                 type="text"
-                placeholder="Create a new todo..."
+                placeholder="Create a new todo ana ferret..."
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
             />

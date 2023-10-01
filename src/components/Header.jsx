@@ -20,7 +20,7 @@ const Header = () => {
     }, [darkMode]); // aca le puedo indicar entre corchetes que cosa es lo que se actualiza
     //si lo dejo vacío [] sólo se actualiza una vez...
     return (
-        <header className="container mx-auto px-4">
+        <header className="container mx-auto px-4 md:max-w-xl">
             <div className="flex justify-between">
                 <h1 className="pt-8 text-3xl font-semibold uppercase tracking-[0.3em] text-white ">
                     Todo
