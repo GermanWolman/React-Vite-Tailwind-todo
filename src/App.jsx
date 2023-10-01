@@ -6,7 +6,7 @@ import TodoFilter from './components/TodoFilter';
 import { useEffect, useState } from 'react';
 import { DragDropContext } from '@hello-pangea/dnd';
 
-/* const initialStateTodos = [
+ const initialStateTodos = [
     {
         id: 1,
         title: 'Complete online Javascript course',
@@ -32,9 +32,9 @@ import { DragDropContext } from '@hello-pangea/dnd';
         title: 'Complete todo app on React',
         completed: false,
     },
-]; */
+]; 
 
-const initialStateTodos = JSON.parse(localStorage.getItem('todos') || []);
+//const initialStateTodos = JSON.parse(localStorage.getItem('todos') || []);
 
 const reorder = (list, startIndex, endIndex) => {
     const result = [...list];
